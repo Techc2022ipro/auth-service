@@ -11,3 +11,5 @@ services:
       - ./app/.env
     ports:
       - 1000:1000
+    volumes:
+      - ./app:/app
