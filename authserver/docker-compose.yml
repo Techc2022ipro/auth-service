@@ -10,6 +10,6 @@ services:
     env_file:
       - ./app/.env
     ports:
-      - 1000:1000
+      - 8000:8000
     volumes:
       - ./app:/app

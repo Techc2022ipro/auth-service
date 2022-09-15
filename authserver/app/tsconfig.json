@@ -1,7 +1,19 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
-
+    "baseUrl": "./",
+    "paths": {
+      "@/*":                  ["./src/*"],
+      "@controller/*":        ["./src/controller/*"],
+      "@entities/*":          ["./src/entities/*"],
+      "@interfaces/*":        ["./src/interfaces/*"],
+      "@libraries/*":         ["./src/libraries/*"],
+      "@parser/*":            ["./src/parser/*"],
+      "@routes/*":            ["./src/routes/*"],
+      "@schemas/*":           ["./src/schemas/*"],
+      "@services/*":          ["./src/services/*"],
+      "@repositories/*":      ["./src/repositories/*"],
+    },
     /* Projects */
     // "incremental": true,                              /* Save .tsbuildinfo files to allow for incremental compilation of projects. */
     // "composite": true,                                /* Enable constraints that allow a TypeScript project to be used with project references. */
