@@ -1,8 +1,18 @@
 import {AuthRepositoryInterfaces} from "@/interfaces/AuthInterfaces";
-import {PrismaClient} from "@prisma/client";
+import {PrismaClient, User} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+
+  const constructUser = (user: User) => {
+    const constructedUser = {
+     uid: user.uid,
+     username: user.username,
+     email: user.email,
+     password: user.password
+    };
+    return constructedUser;
+  }
 export const AuthRepository: AuthRepositoryInterfaces = {
   async fetch(identifier) {
     const user = await prisma.user.findFirst({
@@ -17,7 +27,7 @@ export const AuthRepository: AuthRepositoryInterfaces = {
         ]
       }
     });
-    return user ? user : null;
+    return user ? constructUser(user) : null;
   },
 
   async signupRepositoriy({username, email, password}) {

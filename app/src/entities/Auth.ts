@@ -11,3 +11,12 @@ export type SignupCredentials = {
   confirmPassword: string,
 }
 
+export type LoginCredentials = {
+  identifier: string,
+  password: string
+}
+
+export type JwtToken = {
+  accessToken: string,
+  refreshToken: string
+}

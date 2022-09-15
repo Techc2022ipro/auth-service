@@ -1,5 +1,5 @@
 import {AuthServiceInterfaces} from "@/interfaces/AuthInterfaces";
-import {BaseError, InternalServerError} from "@/libraries/libs/error/Errors";
+import {BaseError, InternalServerError, Unauthorized} from "@/libraries/libs/error/Errors";
 import {AuthRepository} from "@/repositories/AuthRepository";
 
 export const AuthService: AuthServiceInterfaces = {
@@ -9,5 +9,11 @@ export const AuthService: AuthServiceInterfaces = {
     const userCreated = await AuthRepository.signupRepositoriy(query);
     if(!userCreated) throw new InternalServerError();
     return 'User created';
+  },
+
+  async loginService(query)  {
+    const user = await AuthRepository.fetch(query.identifier);
+    if(!user) throw new Unauthorized();
+    return user;
   }
 }
