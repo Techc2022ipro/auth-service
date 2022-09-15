@@ -1,5 +1,6 @@
 export type ResponseUser = {
-  uId:        number
+  uid:        number
   username:   string
   email:      string
+  password:   string
 }
