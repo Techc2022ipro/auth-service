@@ -1,22 +1,19 @@
-import express, {Request, Response} from "express";
+import express from 'express';
 import Logger from './libraries/libs/Logger';
 import cors from 'cors';
-import cookieParser from "cookie-parser";
+import cookieParser from 'cookie-parser';
+import router from './routes';
 
 const app = express();
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: 'http://localhost:3000',
   credentials: true
 }));
-
-
-app.post("/login", (req: Request, res: Response) => {
-  console.log(req.body);
-  res.send("you have reached zo")
-});
+app.use(router);
 
 app.listen(8000, () => {
-    Logger.info("listening to port 8000")
+    Logger.info('listening to port 8000')
 })
