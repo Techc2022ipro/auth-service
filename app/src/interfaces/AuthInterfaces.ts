@@ -8,7 +8,7 @@ export type AuthControllerInterfaces = {
 }
 export type AuthServiceInterfaces = {
   signupService(query: User): Promise<string>,
-  loginService(query: LoginCredentials): Promise<ResponseUser | null>
+  loginService(query: LoginCredentials): Promise<ResponseUser>
 }
 export type AuthRepositoryInterfaces = {
   fetch(query: string): Promise<ResponseUser | null>
