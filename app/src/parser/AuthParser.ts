@@ -1,7 +1,6 @@
 import {Request, Response} from 'express';
 import { AuthControllers } from '@/controller/AuthController';
 import ErrorWrapper from '@libraries/libs/ParserWrapper';
-import Logger from '@/libraries/libs/Logger';
 
 export const isVerified = async (req: Request, res: Response) => {
     Logger.info('isVerified');
