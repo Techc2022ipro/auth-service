@@ -3,15 +3,16 @@ import { AuthControllers } from '@/controller/AuthController';
 import ErrorWrapper from '@libraries/libs/ParserWrapper';
 
 export const isVerified = async (req: Request, res: Response) => {
-    Logger.info('isVerified');
-    res.send({isVerified: true});
+  ErrorWrapper(res, 'isVerified', async () => {
+    return {isVerified: true, data: res.locals['user']};
+  })
 }
 
 export const logout = async (req: Request, res: Response) => {
-    Logger.info('logout');
+  ErrorWrapper(res, 'logout', async () => {
     res.clearCookie('authToken');
-    res.end();
     return 'logged out';
+  })
 }
 
 export const signupUser = async (req: Request, res: Response) => {
