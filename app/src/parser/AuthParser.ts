@@ -3,9 +3,7 @@ import { AuthControllers } from '@/controller/AuthController';
 import ErrorWrapper from '@libraries/libs/ParserWrapper';
 
 export const isVerified = async (req: Request, res: Response) => {
-  ErrorWrapper(res, 'isVerified', async () => {
-    return {isVerified: true, data: res.locals['user']};
-  })
+    res.send({isVerified: true, data: res.locals['user']});
 }
 
 export const logout = async (req: Request, res: Response) => {
