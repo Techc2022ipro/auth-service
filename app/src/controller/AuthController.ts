@@ -33,6 +33,6 @@ export const AuthControllers: AuthControllerInterfaces= {
       username: user.username,
       email: user.email
     };
-    return CreateTokens(credentials);
+    return {jwt: CreateTokens(credentials), userCredentials: credentials};
   }
 } 

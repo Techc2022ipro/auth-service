@@ -4,9 +4,7 @@ import ErrorWrapper from '@libraries/libs/ParserWrapper';
 import Logger from '@/libraries/libs/Logger';
 
 export const isVerified = async (req: Request, res: Response) => {
-  ErrorWrapper(res, 'isVerified', async () => {
-    return {isVerified: true, data: res.locals['user']};
-  })
+    res.send({isVerified: true, data: res.locals['user']});
 }
 
 export const logout = async (req: Request, res: Response) => {
@@ -24,9 +22,8 @@ export const signupUser = async (req: Request, res: Response) => {
 
 export const userLogin = async (req: Request, res: Response) => {
   ErrorWrapper(res, 'login', async () => {
-    const token = await AuthControllers.loginController(req.body);
-    res.cookie('authToken', token.accessToken, {httpOnly: true});
+    const response = await AuthControllers.loginController(req.body);
+    res.cookie('authToken', response.jwt.accessToken, {httpOnly: true});
     return 'cookie set';
   })
-
 }
