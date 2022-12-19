@@ -1,11 +1,18 @@
 import {AuthControllerInterfaces} from "@/interfaces/AuthInterfaces";
 import CreateTokens from "@/libraries/libs/CreateTokens";
 import {BadRequest, InternalServerError, Unauthorized} from "@/libraries/libs/error/Errors";
-import {loginValidationSchema, signUpValidationSchema} from "@/schemas/AuthSchemas";
+import {getUserValidationSchema, loginValidationSchema, signUpValidationSchema} from "@/schemas/AuthSchemas";
 import {AuthService} from "@/services/AuthService";
 import * as bcrypt from 'bcrypt';
 
 export const AuthControllers: AuthControllerInterfaces= {
+  async getUserByIdController(query) {
+    const userQuery = {uid: query}
+    const isValid = await getUserValidationSchema.parseAsync(userQuery);
+    if (!isValid) throw new BadRequest();
+    return await AuthService.getUserByIdService(query);
+  },
+
   async signupController(query) {
     const isValid = await signUpValidationSchema.parseAsync(query);
     if(!isValid) throw new BadRequest();

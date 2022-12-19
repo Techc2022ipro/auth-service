@@ -3,6 +3,11 @@ import {BaseError, InternalServerError, Unauthorized} from "@/libraries/libs/err
 import {AuthRepository} from "@/repositories/AuthRepository";
 
 export const AuthService: AuthServiceInterfaces = {
+  async getUserByIdService(query) {
+    const user = await AuthRepository.getUserById(query);
+    if(!user) throw new BaseError(404, "User not found");
+    return user;
+  },
   async signupService(query) {
     const user = await AuthRepository.fetch(query.email);
     if(user) throw new BaseError(400, 'User already exists'); 

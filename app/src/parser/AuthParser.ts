@@ -25,5 +25,11 @@ export const userLogin = async (req: Request, res: Response) => {
     res.cookie('authToken', token.accessToken, {httpOnly: true});
     return 'cookie set';
   })
+}
 
+export const getUserData = async (req: Request, res: Response) => {
+  ErrorWrapper(res, 'getUserData', async () => {
+    const query = parseInt(req.params.uid);
+    return await AuthControllers.getUserByIdController(query)
+  })
 }

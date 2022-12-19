@@ -11,3 +11,7 @@ export const loginValidationSchema = Zod.object({
   identifier: Zod.string().min(3),
   password: Zod.string()
 })
+
+export const getUserValidationSchema = Zod.object({
+  uid: Zod.number()
+})
