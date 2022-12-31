@@ -2,6 +2,7 @@ import {Request, Response} from 'express';
 import { AuthControllers } from '@/controller/AuthController';
 import ErrorWrapper from '@libraries/libs/ParserWrapper';
 
+
 export const isVerified = async (req: Request, res: Response) => {
     res.send({isVerified: true, data: res.locals['user']});
 }
@@ -16,8 +17,7 @@ export const logout = async (req: Request, res: Response) => {
 export const signupUser = async (req: Request, res: Response) => {
   ErrorWrapper(res, 'signup', async () => {
     return await AuthControllers.signupController(req.body);
-  })
-}
+  }) }
 
 export const userLogin = async (req: Request, res: Response) => {
   ErrorWrapper(res, 'login', async () => {
@@ -33,3 +33,19 @@ export const getUserData = async (req: Request, res: Response) => {
     return await AuthControllers.getUserByIdController(query)
   })
 }
+
+export const getUserProfile = async (req: Request, res: Response) => {
+  ErrorWrapper(res, 'getUserProfile', async () => {
+    const query = parseInt(res.locals['user'].uid);
+    return await AuthControllers.getUserProfileController(query);
+  })
+}
+
+export const createUserProfile = async (req: Request, res: Response) => {
+  ErrorWrapper(res, 'createUserProfile', async () => {
+    const uid = parseInt(res.locals['user'].uid);
+    return await AuthControllers.createUserProfileController({uid, ...req.body, profilePic: req.file});
+  })
+}
+
+

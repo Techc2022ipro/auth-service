@@ -1,8 +1,9 @@
 import {AuthControllerInterfaces} from "@/interfaces/AuthInterfaces";
 import CreateTokens from "@/libraries/libs/CreateTokens";
-import {BadRequest, InternalServerError, Unauthorized} from "@/libraries/libs/error/Errors";
-import {getUserValidationSchema, loginValidationSchema, signUpValidationSchema} from "@/schemas/AuthSchemas";
+import {BadRequest, BaseError, InternalServerError, NotFound, Unauthorized} from "@/libraries/libs/error/Errors";
+import {createUserProfileValidationSchema, getUserProfileValidationSchema, getUserValidationSchema, loginValidationSchema, signUpValidationSchema} from "@/schemas/AuthSchemas";
 import {AuthService} from "@/services/AuthService";
+import {S3Service} from "@/services/S3Service";
 import * as bcrypt from 'bcrypt';
 
 export const AuthControllers: AuthControllerInterfaces= {
@@ -27,7 +28,6 @@ export const AuthControllers: AuthControllerInterfaces= {
     if(!createUser) throw new InternalServerError();
     return createUser;
   },
-
   async loginController(query) {
     const isValid = await loginValidationSchema.parseAsync(query) ;
     if(!isValid) throw new BadRequest();
@@ -41,5 +41,48 @@ export const AuthControllers: AuthControllerInterfaces= {
       email: user.email
     };
     return CreateTokens(credentials);
+  },
+
+  async getUserProfileController(uid) {
+    const hasIssue = await getUserProfileValidationSchema.parseAsync(uid).catch(err => {return err});
+    if(hasIssue.hasIssue) {
+      throw new BadRequest();
+    }
+    const profile = await AuthService.getUserProfileService(uid);
+    if(!profile) throw new BaseError(404,"User Profile Not setup");
+
+    return profile;
+  },
+
+  async createUserProfileController(query) {
+    const hasIssue = await createUserProfileValidationSchema.parseAsync(query).catch(err => {return err})
+    if(hasIssue.hasIssue) {
+      throw new BadRequest();
+    }
+    if(query.tags.length > 3) throw new BadRequest();
+    if(query.profilePic) {
+      const imageKey = await S3Service.uploadImageService(query.profilePic);
+      console.log(imageKey)
+      const profile = {
+        uid: query.uid,
+        firstName: query.firstName,
+        lastName: query.lastName,
+        profilePic: imageKey,
+        address: query.address,
+        phoneNo: query.phoneNo,
+        tags: query.tags
+      }
+      return await AuthService.createUserProfileService(profile);
+    }
+    const profile = {
+        uid: query.uid,
+        firstName: query.firstName,
+        lastName: query.lastName,
+        profilePic: "",
+        address: query.address,
+        phoneNo: query.phoneNo,
+        tags: query.tags
+    }
+    return await AuthService.createUserProfileService(profile)
   }
 } 
