@@ -45,9 +45,7 @@ export const AuthControllers: AuthControllerInterfaces= {
 
   async getUserProfileController(uid) {
     const hasIssue = await getUserProfileValidationSchema.parseAsync(uid).catch(err => {return err});
-    if(hasIssue.hasIssue) {
-      throw new BadRequest();
-    }
+    if(hasIssue.hasIssue) throw new BadRequest();
     const profile = await AuthService.getUserProfileService(uid);
     if(!profile) throw new BaseError(404,"User Profile Not setup");
 
@@ -83,5 +81,15 @@ export const AuthControllers: AuthControllerInterfaces= {
         tags: query.tags
     }
     return await AuthService.createUserProfileService(profile)
+  },
+
+  async getUserProfileByUidController(uid) {
+    const hasIssue = await getUserValidationSchema.parseAsync(uid).catch(err => {return err});
+    if(hasIssue.hasIssue) throw new BadRequest();
+
+    const profile = await AuthService.getUserProfileService(uid);
+    if(!profile) throw new NotFound();
+
+    return profile;
   }
 } 

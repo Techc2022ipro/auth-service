@@ -7,6 +7,7 @@ export type AuthControllerInterfaces = {
   signupController(query: SignupCredentials): Promise<{message: string}>,
   loginController(query: LoginCredentials): Promise<JwtToken>,
   getUserProfileController(query: number): Promise<Profile>,
+  getUserProfileByUidController(query: number): Promise<Profile>,
   createUserProfileController(query: CreateProfile): Promise<{message: string}>
 }
 export type AuthServiceInterfaces = {
