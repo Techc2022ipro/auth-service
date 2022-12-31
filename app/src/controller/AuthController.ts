@@ -62,7 +62,6 @@ export const AuthControllers: AuthControllerInterfaces= {
     if(query.tags.length > 3) throw new BadRequest();
     if(query.profilePic) {
       const imageKey = await S3Service.uploadImageService(query.profilePic);
-      console.log(imageKey)
       const profile = {
         uid: query.uid,
         firstName: query.firstName,
