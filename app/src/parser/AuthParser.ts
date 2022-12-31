@@ -48,4 +48,12 @@ export const createUserProfile = async (req: Request, res: Response) => {
   })
 }
 
+export const getUserProfileByUid = async (req: Request, res: Response) => {
+  ErrorWrapper(res, 'getUserProfileByUid', async () => {
+    const uid = parseInt(req.params.uid);
+    return await AuthControllers.getUserProfileByUidController(uid);
+  })
+}
+
+
 

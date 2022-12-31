@@ -2,6 +2,7 @@ import {
   createUserProfile, 
   getUserData, 
   getUserProfile, 
+  getUserProfileByUid, 
   isVerified, 
   logout, 
   signupUser, 
@@ -24,6 +25,7 @@ router.get('/logout',VerifyToken ,logout);
 router.get('/isVerified',VerifyToken ,isVerified);
 router.get('/getuser/:uid',getUserData);
 router.get('/profile', VerifyToken, getUserProfile);
+router.get('/profile/:uid', getUserProfileByUid);
 router.post('/profile', [VerifyToken, upload.single('profilePic')], createUserProfile);
 router.post('/signup', signupUser);
 router.post('/login', userLogin);

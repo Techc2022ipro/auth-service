@@ -1,5 +1,5 @@
 import {AuthServiceInterfaces} from "@/interfaces/AuthInterfaces";
-import {BadRequest, BaseError, InternalServerError, Unauthorized} from "@/libraries/libs/error/Errors";
+import {BadRequest, BaseError, InternalServerError, NotFound, Unauthorized} from "@/libraries/libs/error/Errors";
 import {AuthRepository} from "@/repositories/AuthRepository";
 
 export const AuthService: AuthServiceInterfaces = {
@@ -29,6 +29,7 @@ export const AuthService: AuthServiceInterfaces = {
     return user;
   },
 
+  // get user profile
   async getUserProfileService(query) {
     const profile = await AuthRepository.fetchProfile(query);
     const user = await AuthRepository.getUserById(query);
@@ -38,6 +39,7 @@ export const AuthService: AuthServiceInterfaces = {
     return profile;
   },
 
+  // create user profile
   async createUserProfileService(query) {
     const user = await AuthRepository.getUserById(query.uid);
     if(!user) throw new Unauthorized();
@@ -49,5 +51,5 @@ export const AuthService: AuthServiceInterfaces = {
     if(!profile) throw new BadRequest(); 
 
     return {message: 'Profile Created.'}
-  }
+  },
 }
