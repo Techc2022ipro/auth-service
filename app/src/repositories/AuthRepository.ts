@@ -47,5 +47,29 @@ export const AuthRepository: AuthRepositoryInterfaces = {
       }
     });
     return user;
-  }
+  },
+
+  async fetchProfile(uid) {
+    const profile = await prisma.profile.findFirst({
+      where: {
+        uid
+      }
+    })
+    return profile ? profile : null;
+  }, 
+
+  async createProfile({uid, firstName, lastName, profilePic, address, phoneNo, tags}){
+    const profile = await prisma.profile.create({
+      data: {
+        uid,
+        firstName,
+        lastName,
+        profilePic,
+        address,
+        phoneNo,
+        tags
+      }
+    })
+    return profile ? profile : null;
+  } 
 }

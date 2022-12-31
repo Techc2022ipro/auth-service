@@ -25,9 +25,9 @@ model Profile {
   uid                   Int                       @unique
   firstName             String                    @db.VarChar(64)
   lastName              String                    @db.VarChar(64)
-  profilePic            String                    @db.VarChar(256)
-  address               String                    @db.VarChar(256)
-  phoneNo               String                    @db.VarChar(60)
+  profilePic            String?                    @db.VarChar(256)
+  address               String?                    @db.VarChar(256)
+  phoneNo               String?                    @db.VarChar(60)
   tags                  String[]                
   user                  User                      @relation(fields: [uid], references: [uid])
   createdAt             DateTime                  @default(now())

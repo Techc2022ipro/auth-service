@@ -1,5 +1,5 @@
 import {AuthServiceInterfaces} from "@/interfaces/AuthInterfaces";
-import {BaseError, InternalServerError, Unauthorized} from "@/libraries/libs/error/Errors";
+import {BadRequest, BaseError, InternalServerError, Unauthorized} from "@/libraries/libs/error/Errors";
 import {AuthRepository} from "@/repositories/AuthRepository";
 
 export const AuthService: AuthServiceInterfaces = {
@@ -8,19 +8,46 @@ export const AuthService: AuthServiceInterfaces = {
     if(!user) throw new BaseError(404, "User not found");
     return user;
   },
+
   async signupService(query) {
     const validUserMail = await AuthRepository.fetch(query.email);
     if(validUserMail) throw new BaseError(400, 'User already exists'); 
+
     const validUserName = await AuthRepository.fetch(query.username); 
     if(validUserName) throw new BaseError(400, 'User already exists'); 
+    
     const userCreated = await AuthRepository.signupRepositoriy(query);
     if(!userCreated) throw new InternalServerError();
-    return 'User created';
+
+    return {message: 'User created'};
   },
 
   async loginService(query)  {
     const user = await AuthRepository.fetch(query.identifier);
     if(!user) throw new Unauthorized();
+
     return user;
+  },
+
+  async getUserProfileService(query) {
+    const profile = await AuthRepository.fetchProfile(query);
+    const user = await AuthRepository.getUserById(query);
+
+    if(!user) throw new Unauthorized();
+
+    return profile;
+  },
+
+  async createUserProfileService(query) {
+    const user = await AuthRepository.getUserById(query.uid);
+    if(!user) throw new Unauthorized();
+
+    const profileExist = await AuthRepository.fetchProfile(query.uid);
+    if(profileExist) throw new BaseError(400, 'Profile already exists');
+
+    const profile = await AuthRepository.createProfile(query);
+    if(!profile) throw new BadRequest(); 
+
+    return {message: 'Profile Created.'}
   }
 }
