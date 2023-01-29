@@ -25,7 +25,6 @@ export const AuthService: AuthServiceInterfaces = {
   async loginService(query)  {
     const user = await AuthRepository.fetch(query.identifier);
     if(!user) throw new Unauthorized();
-
     return user;
   },
 
@@ -43,7 +42,6 @@ export const AuthService: AuthServiceInterfaces = {
   async createUserProfileService(query) {
     const user = await AuthRepository.getUserById(query.uid);
     if(!user) throw new Unauthorized();
-
     const profileExist = await AuthRepository.fetchProfile(query.uid);
     if(profileExist) throw new BaseError(400, 'Profile already exists');
 

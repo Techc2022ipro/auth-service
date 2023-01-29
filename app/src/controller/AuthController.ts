@@ -28,6 +28,7 @@ export const AuthControllers: AuthControllerInterfaces= {
     if(!createUser) throw new InternalServerError();
     return createUser;
   },
+
   async loginController(query) {
     const isValid = await loginValidationSchema.parseAsync(query) ;
     if(!isValid) throw new BadRequest();
@@ -48,7 +49,6 @@ export const AuthControllers: AuthControllerInterfaces= {
     if(hasIssue.hasIssue) throw new BadRequest();
     const profile = await AuthService.getUserProfileService(uid);
     if(!profile) throw new BaseError(404,"User Profile Not setup");
-
     return profile;
   },
 
@@ -57,7 +57,7 @@ export const AuthControllers: AuthControllerInterfaces= {
     if(hasIssue.hasIssue) {
       throw new BadRequest();
     }
-    if(query.tags.length > 3) throw new BadRequest();
+    if(query.tags.length < 1 && query.tags.length > 3) throw new BadRequest();
     if(query.profilePic) {
       const imageKey = await S3Service.uploadImageService(query.profilePic);
       const profile = {
@@ -80,16 +80,14 @@ export const AuthControllers: AuthControllerInterfaces= {
         phoneNo: query.phoneNo,
         tags: query.tags
     }
-    return await AuthService.createUserProfileService(profile)
+    return await AuthService.createUserProfileService(profile);
   },
 
   async getUserProfileByUidController(uid) {
     const hasIssue = await getUserValidationSchema.parseAsync(uid).catch(err => {return err});
     if(hasIssue.hasIssue) throw new BadRequest();
-
     const profile = await AuthService.getUserProfileService(uid);
     if(!profile) throw new NotFound();
-
     return profile;
   }
 } 

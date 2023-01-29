@@ -19,7 +19,7 @@ services:
     depends_on:
       - postgresql
   postgresql:
-     image: postgres:12
+     image: postgres:13.3
      container_name: auth-db
      environment:
        - POSTGRES_USER=root
