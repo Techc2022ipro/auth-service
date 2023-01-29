@@ -5,7 +5,7 @@ permissions:
 on:
   pull_request:
     types:
-      - opend
+      - opened
       - synchronize
     branches:
       - main
@@ -31,3 +31,8 @@ jobs:
         docker build -t auth-service-server .
         docker tag auth-service-server:latest ${{ secrets.ECR_REPO }}
         docker push ${{ secrets.ECR_REPO }}
+    - name: compose build
+      run: |
+        echo "" > app/.env
+        docker-compose up -d postgresql
+        docker-compose push
