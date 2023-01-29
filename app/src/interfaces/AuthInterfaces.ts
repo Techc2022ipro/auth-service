@@ -10,6 +10,7 @@ export type AuthControllerInterfaces = {
   getUserProfileByUidController(query: number): Promise<Profile>,
   createUserProfileController(query: CreateProfile): Promise<{message: string}>
 }
+
 export type AuthServiceInterfaces = {
   getUserByIdService(query: number): Promise<UserData>,
   signupService(query: User): Promise<{message: string}>,
@@ -17,6 +18,7 @@ export type AuthServiceInterfaces = {
   getUserProfileService(query: number): Promise<Profile | null>
   createUserProfileService(query: Profile): Promise<{message: string}>
 }
+
 export type AuthRepositoryInterfaces = {
   getUserById(query: number): Promise<UserData | null>
   fetch(query: string): Promise<ResponseUser | null>
