@@ -1,3 +1,0 @@
-[submodule "app/src/libraries"]
-	path = app/src/libraries
-	url = git@github.com:Techc2022ipro/libraries.git
