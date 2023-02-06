@@ -55,5 +55,3 @@ export const getUserProfileByUid = async (req: Request, res: Response) => {
   })
 }
 
-
-
