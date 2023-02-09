@@ -28,7 +28,7 @@ export const signupUser = async (req: Request, res: Response) => {
 export const userLogin = async (req: Request, res: Response) => {
   ErrorWrapper(res, 'login', async () => {
     const token = await AuthControllers.loginController(req.body);
-    res.set('authToken', token.jwt.accessToken);
+    res.cookie('authToken', token.jwt.accessToken);
     return token.userData;
   })
 }

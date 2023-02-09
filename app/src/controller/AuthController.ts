@@ -29,7 +29,7 @@ export const AuthControllers: AuthControllerInterfaces= {
   },
 
   async loginController(query) {
-    const isValid = await loginValidationSchema.parseAsync(query) ;
+    const isValid = await loginValidationSchema.parseAsync(query);
     if(!isValid) throw new BadRequest();
     const user = await AuthService.loginService(query);
     if(!user) throw new Unauthorized();
@@ -40,7 +40,8 @@ export const AuthControllers: AuthControllerInterfaces= {
       username: user.username,
       email: user.email
     };
-    return {userData: credentials, jwt:CreateTokens(credentials)};
+    const createdToken = CreateTokens(credentials);
+    return {userData: credentials, jwt:createdToken};
   },
 
   async getUserProfileController(uid) {

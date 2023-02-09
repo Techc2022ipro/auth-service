@@ -22,6 +22,7 @@ export const AuthRepository: AuthRepositoryInterfaces = {
     });
     return user ? {username: user.username, email: user.email} : null;
   },
+
   async fetch(identifier) {
     const user = await prisma.user.findFirst({
       where: {

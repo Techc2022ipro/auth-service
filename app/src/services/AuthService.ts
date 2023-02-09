@@ -1,5 +1,5 @@
 import {AuthServiceInterfaces} from "@/interfaces/AuthInterfaces";
-import {BadRequest, BaseError, InternalServerError, NotFound, Unauthorized} from "@/libraries/libs/error/Errors";
+import {BaseError, InternalServerError, Unauthorized} from "@/libraries/libs/error/Errors";
 import {AuthRepository} from "@/repositories/AuthRepository";
 
 export const AuthService: AuthServiceInterfaces = {
