@@ -22,6 +22,7 @@ export const AuthRepository: AuthRepositoryInterfaces = {
     });
     return user ? {username: user.username, email: user.email} : null;
   },
+
   async fetch(identifier) {
     const user = await prisma.user.findFirst({
       where: {
@@ -58,18 +59,4 @@ export const AuthRepository: AuthRepositoryInterfaces = {
     return profile ? profile : null;
   }, 
 
-  async createProfile({uid, firstName, lastName, profilePic, address, phoneNo, tags}){
-    const profile = await prisma.profile.create({
-      data: {
-        uid,
-        firstName,
-        lastName,
-        profilePic,
-        address,
-        phoneNo,
-        tags
-      }
-    })
-    return profile ? profile : null;
-  } 
 }
