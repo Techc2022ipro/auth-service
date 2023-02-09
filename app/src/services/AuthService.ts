@@ -38,16 +38,4 @@ export const AuthService: AuthServiceInterfaces = {
     return profile;
   },
 
-  // create user profile
-  async createUserProfileService(query) {
-    const user = await AuthRepository.getUserById(query.uid);
-    if(!user) throw new Unauthorized();
-    const profileExist = await AuthRepository.fetchProfile(query.uid);
-    if(profileExist) throw new BaseError(400, 'Profile already exists');
-
-    const profile = await AuthRepository.createProfile(query);
-    if(!profile) throw new BadRequest(); 
-
-    return {message: 'Profile Created.'}
-  },
 }

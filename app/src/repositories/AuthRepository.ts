@@ -58,18 +58,4 @@ export const AuthRepository: AuthRepositoryInterfaces = {
     return profile ? profile : null;
   }, 
 
-  async createProfile({uid, firstName, lastName, profilePic, address, phoneNo, tags}){
-    const profile = await prisma.profile.create({
-      data: {
-        uid,
-        firstName,
-        lastName,
-        profilePic,
-        address,
-        phoneNo,
-        tags
-      }
-    })
-    return profile ? profile : null;
-  } 
 }

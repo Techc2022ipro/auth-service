@@ -3,6 +3,12 @@ import { AuthControllers } from '@/controller/AuthController';
 import ErrorWrapper from '@libraries/libs/ParserWrapper';
 
 
+export const health = async (req: Request, res: Response) => {
+  ErrorWrapper(res, 'healthCheck', async () => {
+    return "port wroking";
+  })
+}
+
 export const isVerified = async (req: Request, res: Response) => {
     res.send({isVerified: true, data: res.locals['user']});
 }
@@ -22,8 +28,8 @@ export const signupUser = async (req: Request, res: Response) => {
 export const userLogin = async (req: Request, res: Response) => {
   ErrorWrapper(res, 'login', async () => {
     const token = await AuthControllers.loginController(req.body);
-    res.cookie('authToken', token.accessToken, {httpOnly: true});
-    return 'cookie set';
+    res.set('authToken', token.jwt.accessToken);
+    return token.userData;
   })
 }
 
@@ -38,13 +44,6 @@ export const getUserProfile = async (req: Request, res: Response) => {
   ErrorWrapper(res, 'getUserProfile', async () => {
     const query = parseInt(res.locals['user'].uid);
     return await AuthControllers.getUserProfileController(query);
-  })
-}
-
-export const createUserProfile = async (req: Request, res: Response) => {
-  ErrorWrapper(res, 'createUserProfile', async () => {
-    const uid = parseInt(res.locals['user'].uid);
-    return await AuthControllers.createUserProfileController({uid, ...req.body, profilePic: req.file});
   })
 }
 
